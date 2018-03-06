@@ -11,9 +11,11 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+# Starting with the Apache sites setup
+bash ./apache-sites/apache-setup.sh
 
 # Install hostapd (for the access point), dnsmasq (to handle DNS) & apache2 (to serve our pages)
-sudo apt install hostapd dnsmasq apache2 -y
+sudo apt install hostapd dnsmasq -y
 
 # Setup simple config for hostapd
 cat > /etc/hostapd/hostapd.conf << EOL
@@ -29,7 +31,7 @@ echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 # Add dnsmasq config
 cat >> /etc/dnsmasq.conf << EOL
 log-facility=/var/log/dnsmasq.log
-address=/#/10.0.0.1
+address=/#/192.168.66.1
 interface=wlan0
 dhcp-range=192.168.66.10,192.168.66.250,12h
 no-resolv
